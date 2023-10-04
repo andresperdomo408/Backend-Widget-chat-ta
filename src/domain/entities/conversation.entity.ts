@@ -8,6 +8,7 @@ export class ConversationEntity {
     public name?: string,
     public from?: String,
     public icon?: string,
-    public file?: File | string
+    public file?: File | string,
+    public nodes?: []
   ) {}
 }

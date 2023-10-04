@@ -7,6 +7,8 @@ import { GetByIDConversationDto } from "../../domain/dtos/conversation/get-conve
 import { RemoveByIDConversationDto } from "../../domain/dtos/conversation/remove-conversation.dto";
 import { GetByIDConversation } from "../../domain/useCases/get-conversation.useCases";
 import { RemoveByIDConversation } from "../../domain/useCases/remove-coversation.useCase";
+import { UpdateConversationDto } from "../../domain/dtos/conversation/update-conversation.dto";
+import { UpdateConversation } from "../../domain/useCases/update-conversation.useCases";
 
 export class ConversationController {
   constructor(private readonly conversationRepository: ConversationRepository) {}
@@ -44,6 +46,13 @@ export class ConversationController {
 
     new RemoveByIDConversation(this.conversationRepository)
       .execute(removeByIDConversationDto!)
+      .then((user) => res.json(user))
+      .catch((error) => this.handleError(error, res));
+  };
+  updateConversation = async (req: Request, res: Response) => {
+    const [error, updateConversationDto] = UpdateConversationDto.update(req.body);
+    new UpdateConversation(this.conversationRepository!)
+      .execute(updateConversationDto!)
       .then((user) => res.json(user))
       .catch((error) => this.handleError(error, res));
   };

@@ -24,43 +24,25 @@ export class Sockets {
       // Socket chat-message
       socket.on("chat-message", (message) => {
         const [error, updateConversationDto] = UpdateConversationDto.update(message);
-        new UpdateConversation(conversationRepository)
-          .execute(updateConversationDto!)
-          .then((chat) => {
-            if (message.from !== "bot") {
-              snsSendMessage(chat, message.text, message.user);
-              socket.emit("chat-message-response", `Su conversacion fue actualizada`);
-            }
-          })
-          .catch((error) => socket.emit("chat-message-response", "Hubo un error"));
+        new UpdateConversation(conversationRepository).execute(updateConversationDto!).then((chat) => {
+          if (message.from !== "bot") {
+            snsSendMessage(chat, message.text, message.user);
+          }
+        });
       });
 
       socket.on("image-upload", async (message) => {
         const { Location } = await processImageUpload(message.base64Data, message.name);
         message.image = Location;
         const [error, updateConversationDto] = UpdateConversationDto.update(message);
-        new UpdateConversation(conversationRepository)
-          .execute(updateConversationDto!)
-          .then((chat) => {
-            if (message.from !== "bot") {
-              socket.emit("chat-message-response", `Su conversacion fue actualizada`);
-            }
-          })
-          .catch((error) => socket.emit("chat-message-response", "Hubo un error"));
+        new UpdateConversation(conversationRepository).execute(updateConversationDto!);
       });
 
       socket.on("file-upload", async (message) => {
         const { Location } = await processFileUpload(message.base64Data, message.name);
         message.file = Location;
         const [error, updateConversationDto] = UpdateConversationDto.update(message);
-        new UpdateConversation(conversationRepository)
-          .execute(updateConversationDto!)
-          .then((chat) => {
-            if (message.from !== "bot") {
-              socket.emit("chat-message-response", `Su conversacion fue actualizada`);
-            }
-          })
-          .catch((error) => socket.emit("chat-message-response", "Hubo un error"));
+        new UpdateConversation(conversationRepository).execute(updateConversationDto!);
       });
 
       // Socket Disconnect

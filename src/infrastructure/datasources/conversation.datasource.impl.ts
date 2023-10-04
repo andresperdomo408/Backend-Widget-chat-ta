@@ -9,7 +9,7 @@ import { ConversationMapper } from "../mappers/conversation.mapper";
 
 export class ConversationDataSourceImpl implements ConversationDataSource {
   async update(updateConversationDto: UpdateConversationDto): Promise<ChatMessagesEntity> {
-    const { _id, text, from = "bot", image = "", name = "", icon = "", file = "" } = updateConversationDto;
+    const { _id, text, from = "bot", image = "", name = "", icon = "", file = "", nodes = [] } = updateConversationDto;
     try {
       const chatMessages = await ChatMessagesModel.findById(_id);
       if (!chatMessages) throw CustomError.badRequest("Chat Messages not exists");
@@ -20,6 +20,7 @@ export class ConversationDataSourceImpl implements ConversationDataSource {
         name,
         icon,
         file,
+        nodes,
       });
       if (!newConversation) throw CustomError.notFound("Conversation not found");
       await newConversation.save();

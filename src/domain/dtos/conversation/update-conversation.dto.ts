@@ -6,14 +6,15 @@ export class UpdateConversationDto {
     public image?: string,
     public name?: string,
     public icon?: string,
-    public file?: string
+    public file?: string,
+    public nodes?: []
   ) {}
 
   static update(object: { [key: string]: any }): [string?, UpdateConversationDto?] {
-    const { _id, from, text, image, name, icon, file } = object;
+    const { _id, from, text, image, name, icon, file, nodes } = object;
     if (!_id) return ["Missing _id"];
     if (!from) return ["Missing from"];
 
-    return [undefined, new UpdateConversationDto(_id, from, text, image, name, icon, file)];
+    return [undefined, new UpdateConversationDto(_id, from, text, image, name, icon, file, nodes)];
   }
 }

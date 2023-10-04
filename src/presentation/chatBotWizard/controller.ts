@@ -1,7 +1,6 @@
 import { CustomError } from "../../domain";
 import type { Request, Response } from "express";
 import { ChatBotWizardRoutes } from "./routes";
-import { Socket } from "socket.io";
 import output from "../../../tests/examples/output_event.json";
 
 export class ChatBotWizardController {
@@ -15,11 +14,9 @@ export class ChatBotWizardController {
 
   sendInputChatBotWizard = async (req: Request, res: Response) => {
     try {
-      console.log(output.body.data);
       const io = ChatBotWizardRoutes.io;
-      io.on("connection", (socket: Socket) => {
-        socket.emit("chat-message-response", "Por fin");
-      });
+      io.emit("chat-message-response", output.body.data.nodes);
+      res.send("Guardado Correctamente");
     } catch (error) {
       this.handleError(error, res);
     }

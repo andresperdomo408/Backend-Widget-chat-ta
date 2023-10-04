@@ -12,6 +12,7 @@ export class ConversationRoutes {
     router.post("/", controller.createConversation);
     router.get("/get-conversation/:_id", controller.getByIDConversation);
     router.delete("/delete-conversation/:_id", controller.removeByIDConversation);
+    router.put("/update-conversation", controller.updateConversation);
     return router;
   }
 }

@@ -21,6 +21,9 @@ const conversationSchema = new Schema(
     file: {
       type: String,
     },
+    nodes: {
+      type: Array,
+    },
   },
   { timestamps: true }
 );
